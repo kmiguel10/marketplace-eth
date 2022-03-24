@@ -14,13 +14,11 @@ export default function Home() {
             <Breadcrumbs />
             <WalletBar />
             <EthRates />
-            <CourseList />
             <OrderCard />
+            <CourseList />
           </div>
         </div>
-        {/*------ FOOTER STARTS ------*/}
         <Footer />
-        {/*------ FOOTER ENDS ------*/}
       </div>
     </div>
   );
