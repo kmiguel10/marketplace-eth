@@ -1,10 +1,11 @@
 import { Modal } from "@components/common";
 import { CourseHero, Curriculum, Keypoints } from "@components/course";
 import { BaseLayout } from "@components/layout";
+import Home from ".";
 
 export default function Course() {
   return (
-    <BaseLayout>
+    <>
       <div className="py-4">
         {" "}
         <CourseHero />
@@ -12,6 +13,8 @@ export default function Course() {
       <Keypoints />
       <Curriculum />
       <Modal />
-    </BaseLayout>
+    </>
   );
 }
+
+Course.Layout = BaseLayout;
