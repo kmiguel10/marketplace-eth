@@ -14,8 +14,8 @@ export default function Course({ course }) {
           image={course.coverImage}
         />
       </div>
-      <Keypoints />
-      <Curriculum />
+      <Keypoints points={course.wsl} />
+      <Curriculum locked={true} />
       <Modal />
     </>
   );
