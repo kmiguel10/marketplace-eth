@@ -8,8 +8,11 @@ export default function Course({ course }) {
     <>
       <div className="py-4">
         {" "}
-        {course.title}
-        <CourseHero />
+        <CourseHero
+          title={course.title}
+          description={course.description}
+          image={course.coverImage}
+        />
       </div>
       <Keypoints />
       <Curriculum />
@@ -18,6 +21,7 @@ export default function Course({ course }) {
   );
 }
 
+//specifies how many pages we want to create - returns param for chosen course
 export function getStaticPaths() {
   //get courses
   const { data } = getAllCourses();
