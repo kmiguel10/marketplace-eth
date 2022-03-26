@@ -1,8 +1,9 @@
-import { Navbar, Footer } from "@components/common";
+import { Navbar, Footer } from "@components/ui/common";
+import { Web3Provider } from "@components/providers";
 
 export default function BaseLayout({ children }) {
   return (
-    <>
+    <Web3Provider>
       <div className="overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           <Navbar />
@@ -10,6 +11,6 @@ export default function BaseLayout({ children }) {
         </div>
         <Footer />
       </div>
-    </>
+    </Web3Provider>
   );
 }
