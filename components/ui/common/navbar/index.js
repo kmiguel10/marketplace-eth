@@ -1,6 +1,8 @@
+import { useWeb3 } from "@components/providers";
 import Link from "next/link";
 
 export default function Navbar() {
+  const { connect } = useWeb3();
   return (
     <section>
       <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
@@ -29,11 +31,13 @@ export default function Navbar() {
                   Wishlist
                 </a>
               </Link>
-              <Link href="/">
-                <a className="px-8 py-3 border rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-600">
-                  Connect
-                </a>
-              </Link>
+
+              <span
+                onClick={connect}
+                className="px-8 py-3 border rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-600"
+              >
+                Connect
+              </span>
             </div>
           </div>
         </nav>
