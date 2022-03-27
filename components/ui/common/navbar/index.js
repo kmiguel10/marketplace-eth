@@ -4,6 +4,7 @@ import { Button } from "@components/ui/common";
 
 export default function Navbar() {
   const { connect, isWeb3Loaded, isLoading } = useWeb3();
+
   return (
     <section>
       <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
@@ -39,7 +40,13 @@ export default function Navbar() {
               ) : isWeb3Loaded ? (
                 <Button onClick={connect}>Connect</Button>
               ) : (
-                <Button onClick={connect}>Install Metamask</Button>
+                <Button
+                  onClick={() =>
+                    window.open("https://metamask.io/download/", "_blank")
+                  }
+                >
+                  Install Metamask
+                </Button>
               )}
             </div>
           </div>
