@@ -46,7 +46,7 @@ export default function Web3Provider({ children }) {
 
   const _web3Api = useMemo(() => {
     //destructurize object - refactoring
-    const { web3Api, provider } = web3Api;
+    const { web3, provider } = web3Api;
 
     //return objects
     return {
