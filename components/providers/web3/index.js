@@ -45,15 +45,18 @@ export default function Web3Provider({ children }) {
   }, []); //empty dependency [] to load only once
 
   const _web3Api = useMemo(() => {
+    //destructurize object - refactoring
+    const { web3Api, provider } = web3Api;
+
     //return objects
     return {
       ...web3Api,
-      isWeb3Loaded: web3Api.web3 != null,
-      hooks: setupHooks(web3Api.web3),
-      connect: web3Api.provider
+      isWeb3Loaded: web3 != null,
+      hooks: setupHooks(web3),
+      connect: provider
         ? async () => {
             try {
-              await web3Api.provider.request({ method: "eth_requestAccounts" });
+              await provider.request({ method: "eth_requestAccounts" });
             } catch {
               console.error("Cannot retrieve account");
               window.location.reload();
