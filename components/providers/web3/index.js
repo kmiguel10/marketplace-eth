@@ -52,7 +52,7 @@ export default function Web3Provider({ children }) {
     return {
       ...web3Api,
       isWeb3Loaded: web3 != null,
-      hooks: setupHooks(web3),
+      getHooks: () => setupHooks(web3),
       connect: provider
         ? async () => {
             try {
@@ -75,6 +75,13 @@ export default function Web3Provider({ children }) {
   );
 }
 
+//Returns objects from web3
 export function useWeb3() {
   return useContext(Web3Context);
+}
+
+//Retrieve hooks
+export function useHooks(cb) {
+  const { getHooks } = useWeb3(); //get all hooks
+  return cb(getHooks());
 }
