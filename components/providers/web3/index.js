@@ -45,6 +45,7 @@ export default function Web3Provider({ children }) {
   }, []); //empty dependency [] to load only once
 
   const _web3Api = useMemo(() => {
+    //return objects
     return {
       ...web3Api,
       isWeb3Loaded: web3Api.web3 != null,
@@ -66,6 +67,7 @@ export default function Web3Provider({ children }) {
   }, [web3Api]);
 
   return (
+    //Wrap child components with context - which we can extract data from without having to pass props
     <Web3Context.Provider value={_web3Api}>{children}</Web3Context.Provider>
   );
 }
