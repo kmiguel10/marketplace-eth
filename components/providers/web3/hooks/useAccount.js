@@ -13,6 +13,14 @@ export const handler = (web3) => () => {
     web3 && getAccount(); //Call get account if there is web3
   }, [web3]); //re-render when web3 is changed
 
+  //When eth account change
+  useEffect(() => {
+    window.ethereum &&
+      window.ethereum.on("accountsChanged", (accounts) =>
+        setAccount(accounts[0] ?? null)
+      );
+  }, []);
+
   return {
     account,
   };
