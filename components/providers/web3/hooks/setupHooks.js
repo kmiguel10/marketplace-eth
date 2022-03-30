@@ -1,8 +1,10 @@
-import { handler as createUseAccount } from "./useAccount";
+import { handler as createAccountHook } from "./useAccount";
+import { handler as createNetworkHook } from "./useNetwork";
 
 //accepts web3 as an argument, and returns function
-export const setupHooks = (web3) => {
+export const setupHooks = (...deps) => {
   return {
-    useAccount: createUseAccount(web3),
+    useAccount: createAccountHook(...deps),
+    useNetwork: createNetworkHook(...deps),
   };
 };
