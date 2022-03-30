@@ -1,4 +1,4 @@
-export default function WalletBar() {
+export default function EthRates() {
   return (
     <div className="grid grid-cols-4 mb-5">
       <div className="flex flex-1 items-stretch text-center">
