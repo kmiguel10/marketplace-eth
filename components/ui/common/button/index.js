@@ -10,6 +10,9 @@ export default function Button({
       hoverable && "hover: bg- indigo - 600"
     }`,
     red: `text-white red-600 ${hoverable && "hover: bg- red - 600"}`,
+    lightPurple: `text-indigo-700 bg-indigo-100 ${
+      hoverable && "hover: bg- indigo - 200"
+    }`,
   };
   return (
     <button
