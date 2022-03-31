@@ -48,12 +48,13 @@ export default function Web3Provider({ children }) {
 
   const _web3Api = useMemo(() => {
     //destructurize object - refactoring
-    const { web3, provider } = web3Api;
+    const { web3, provider, isLoading } = web3Api;
 
     //return objects
     return {
       ...web3Api,
-      isWeb3Loaded: web3 != null,
+      //isWeb3Loaded: web3 != null,
+      requireInstall: !isLoading && !web3,
       connect: provider
         ? async () => {
             try {
