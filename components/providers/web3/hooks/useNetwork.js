@@ -18,7 +18,7 @@ export const handler = (web3, provider) => () => {
   //1. Create a call back function
   //2. check if web3 exist, if it does then create the name identifier
   //3. create an asyn function to fetch the network id
-  const { data, error, mutate, ...rest } = useSWR(
+  const { data, mutate, ...rest } = useSWR(
     () => (web3 ? "web3/network" : null),
     async () => {
       const chainId = await web3.eth.getChainId();
@@ -37,13 +37,10 @@ export const handler = (web3, provider) => () => {
   }, [web3]);
 
   return {
-    network: {
-      data,
-      hasLoaded: data || error,
-      mutate,
-      target: targetNetwork,
-      isSupported: data === targetNetwork,
-      ...rest,
-    },
+    data,
+    mutate,
+    target: targetNetwork,
+    isSupported: data === targetNetwork,
+    ...rest,
   };
 };
