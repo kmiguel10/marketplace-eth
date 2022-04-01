@@ -6,10 +6,10 @@ const URL =
 const fetcher = async (url) => {
   const res = await fetch(url);
   const json = await res.json();
-  return json;
+  return json.market_data.current_price.usd ?? null;
 };
 
 export const useEthPrice = () => {
-  const swrRes = useSWR(URL, fetcher);
-  return swrRes;
+  const swrRes = useSWR(URL, fetcher, { refreshInterval: 1000 });
+  return { eth: swrRes };
 };
