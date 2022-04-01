@@ -6,12 +6,16 @@ import { useAccount, useNetwork } from "@components/hooks/web3";
 import { Button } from "@components/ui/common";
 import { OrderModal } from "@components/ui/order";
 import { useState } from "react";
+import { useEthPrice } from "@components/hooks/useEthPrice";
 
 export default function Marketplace({ courses }) {
   const [selectedCourse, setSelectedCourse] = useState(null);
 
   const { account } = useAccount(); //custom hook
   const { network } = useNetwork();
+  const data = useEthPrice();
+  console.log(data);
+
   return (
     <>
       <div className="py-4">
