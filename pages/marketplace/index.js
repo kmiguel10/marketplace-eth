@@ -27,7 +27,7 @@ export default function Marketplace({ courses }) {
             hasInitialResponse: network.hasInitialResponse,
           }}
         />
-        <EthRates eth={eth.data} />
+        <EthRates eth={eth.data} ethPerItem={eth.perItem} />
       </div>
       <CourseList courses={courses}>
         {(course) => (
