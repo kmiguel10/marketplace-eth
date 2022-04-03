@@ -95,6 +95,12 @@ export default function OrderModal({ course, onClose }) {
                   <label className="mb-2 font-bold">Email</label>
                 </div>
                 <input
+                  onChange={({ target: { value } }) => {
+                    setOrder({
+                      ...order,
+                      email: value.trim(),
+                    });
+                  }}
                   type="email"
                   name="email"
                   id="email"
@@ -112,6 +118,12 @@ export default function OrderModal({ course, onClose }) {
                   <label className="mb-2 font-bold">Repeat Email</label>
                 </div>
                 <input
+                  onChange={({ target: { value } }) => {
+                    setOrder({
+                      ...order,
+                      email: value.trim(),
+                    });
+                  }}
                   type="email"
                   name="confirmationEmail"
                   id="confirmationEmail"
@@ -133,7 +145,13 @@ export default function OrderModal({ course, onClose }) {
           </div>
         </div>
         <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex">
-          <Button>Submit</Button>
+          <Button
+            onClick={() => {
+              alert(JSON.stringify(order));
+            }}
+          >
+            Submit
+          </Button>
           <Button onClick={closeModal} variant="purple">
             Cancel
           </Button>
