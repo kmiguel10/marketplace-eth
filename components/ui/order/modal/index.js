@@ -1,19 +1,33 @@
+import { useEthPrice } from "@components/hooks/useEthPrice";
 import { Modal } from "@components/ui/common";
 import { Button } from "@components/ui/common";
 import { useEffect, useState } from "react";
 
+const defaultOrder = {
+  price: "",
+  email: "",
+  confirmationemail: "",
+};
+
 export default function OrderModal({ course, onClose }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [order, setOrder] = useState(defaultOrder);
+  const { eth } = useEthPrice();
 
   useEffect(() => {
     //If we have a course
     if (!!course) {
       setIsOpen(true);
+      setOrder({
+        ...defaultOrder,
+        price: eth.perItem,
+      });
     }
   }, [course]);
 
   const closeModal = () => {
     setIsOpen(false);
+    setOrder(defaultOrder);
     onClose();
   };
 
@@ -42,6 +56,16 @@ export default function OrderModal({ course, onClose }) {
                   </div>
                 </div>
                 <input
+                  value={order.price}
+                  onChange={({ target: { value } }) => {
+                    if (isNaN(value)) {
+                      return;
+                    }
+                    setOrder({
+                      ...order,
+                      price: value,
+                    });
+                  }}
                   type="text"
                   name="price"
                   id="price"
@@ -97,7 +121,7 @@ export default function OrderModal({ course, onClose }) {
         </div>
         <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex">
           <Button>Submit</Button>
-          <Button onClick={closeModal} variant="red">
+          <Button onClick={closeModal} variant="purple">
             Cancel
           </Button>
         </div>
