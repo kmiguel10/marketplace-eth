@@ -37,6 +37,16 @@ contract CourseMarketplace {
     ///Course has already been purchased!
     error CourseHasOwner();
 
+    ///Only owner has access!
+    error OnlyOwner();
+
+    modifier onlyOwner() {
+        if (msg.sender != getContractOwner()) {
+            revert OnlyOwner();
+        }
+        _; //body of function
+    }
+
     //test
     function purchaseCourse(bytes16 courseId, bytes32 proof) external payable {
         //Construct course hash - will be stored in the mapping
@@ -62,6 +72,11 @@ contract CourseMarketplace {
         //0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
     }
 
+    function transferOwnership(address newOwner) external onlyOwner {
+        //Check if the user transfering ownership is the current owner using OnlyOwner modifier
+        setContractOwner(newOwner);
+    }
+
     //Returns number of courses
     function getCourseCount() external view returns (uint256) {
         return totalOwnedCourses;
@@ -83,10 +98,13 @@ contract CourseMarketplace {
         return ownedCourses[courseHash];
     }
 
+    function getContractOwner() public view returns (address) {
+        return owner;
+    }
+
     //set contract owner
     function setContractOwner(address newOwner) private {
         owner = payable(newOwner);
-        owner.transfer(10);
     }
 
     //If the owner of the course has the same address of the sender, then the sender already owns the course
