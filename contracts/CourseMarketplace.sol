@@ -26,13 +26,21 @@ contract CourseMarketplace {
     //number of all courses + id of the course
     uint256 private totalOwnedCourses;
 
+    ///Course has already been purchased!
+    error CourseHasOwner();
+
     //test
     function purchaseCourse(bytes16 courseId, bytes32 proof) external payable {
         //Construct course hash - will be stored in the mapping
         //Course hash will be a unique value - user won't be able to purchase duplicate courses
         //encodePacked - encodes multiple args
-        bytes32 courseHash = keccak256(abi.encodePacked(courseId, msg.sender));
-        uint256 id = totalOwnedCourses++;
+        bytes32 courseHash = keccak256(abi.encodePacked(courseId, msg.sender)); // 0x00000000000000000000000000003130
+
+        if (hasCourseOwnership(courseHash)) {
+            revert CourseHasOwner();
+        }
+
+        uint256 id = totalOwnedCourses++; // 0x0000000000000000000000000000313000000000000000000000000000003130
 
         ownedCourseHash[id] = courseHash;
         ownedCourses[courseHash] = Course({
@@ -65,5 +73,14 @@ contract CourseMarketplace {
         returns (Course memory)
     {
         return ownedCourses[courseHash];
+    }
+
+    //If the owner of the course has the same address of the sender, then the sender already owns the course
+    function hasCourseOwnership(bytes32 courseHash)
+        private
+        view
+        returns (bool)
+    {
+        return ownedCourses[courseHash].owner == msg.sender;
     }
 }
