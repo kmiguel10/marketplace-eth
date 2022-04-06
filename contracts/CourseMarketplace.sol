@@ -20,6 +20,14 @@ contract CourseMarketplace {
     //Mapping of the course hash to course data
     mapping(bytes32 => Course) private ownedCourses;
 
+    //Owner of the contract - ADMIN
+    //Different from owner of the courses
+    address payable private owner;
+
+    constructor() {
+        setContractOwner(msg.sender);
+    }
+
     //mapping of courseId to courseHash
     mapping(uint256 => bytes32) private ownedCourseHash;
 
@@ -73,6 +81,12 @@ contract CourseMarketplace {
         returns (Course memory)
     {
         return ownedCourses[courseHash];
+    }
+
+    //set contract owner
+    function setContractOwner(address newOwner) private {
+        owner = payable(newOwner);
+        owner.transfer(10);
     }
 
     //If the owner of the course has the same address of the sender, then the sender already owns the course
