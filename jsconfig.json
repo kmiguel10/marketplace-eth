@@ -11,9 +11,12 @@
             "@styles/*": [
                 "styles/*"
             ],
-            "@context/*": [
-                "context/*"
+            "@content/*": [
+                "content/*"
             ],
+            "@utils/*": [
+                "utils/*"
+            ]
         }
     }
 }
