@@ -32,7 +32,6 @@ export default function Web3Provider({ children }) {
         //if provider is detected in the browser then initialized web3Api
         const web3 = new Web3(provider); //set web3
         const contract = await loadContract("CourseMarketplace", web3);
-        console.log(contract);
         setWeb3Api({
           provider,
           web3,
