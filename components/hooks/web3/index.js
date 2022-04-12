@@ -19,6 +19,14 @@ export const useAccount = () => {
   };
 };
 
+export const useOwnedCourses = () => {
+  const res = useHooks((hooks) => hooks.useOwnedCourses)();
+
+  return {
+    ownedCourses: { data: res },
+  };
+};
+
 //Combined useAccount and useNetwork hooks
 export const useWalletInfo = () => {
   const { account } = useAccount();
