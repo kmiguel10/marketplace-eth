@@ -23,7 +23,7 @@ export const useOwnedCourses = (...args) => {
   const swrRes = enhanceHook(
     useHooks((hooks) => hooks.useOwnedCourses)(...args)
   );
-
+  debugger;
   return {
     ownedCourses: swrRes,
   };
