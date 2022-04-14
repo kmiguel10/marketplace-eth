@@ -1,7 +1,7 @@
-import { CourseList, CourseCard } from "@components/ui/course";
+import { CourseCard, CourseList } from "@components/ui/course";
 import { BaseLayout } from "@components/ui/layout";
-import { getAllCourses } from "content/courses/fetcher";
-import { useAccount, useWalletInfo } from "@components/hooks/web3";
+import { getAllCourses } from "@content/courses/fetcher";
+import { useWalletInfo } from "@components/hooks/web3";
 import { Button } from "@components/ui/common";
 import { OrderModal } from "@components/ui/order";
 import { useState } from "react";
@@ -9,21 +9,17 @@ import { MarketHeader } from "@components/ui/marketplace";
 import { useWeb3 } from "@components/providers";
 
 export default function Marketplace({ courses }) {
-  const [selectedCourse, setSelectedCourse] = useState(null);
   const { web3, contract } = useWeb3();
   const { canPurchaseCourse, account } = useWalletInfo();
+  const [selectedCourse, setSelectedCourse] = useState(null);
 
   const purchaseCourse = async (order) => {
     const hexCourseId = web3.utils.utf8ToHex(selectedCourse.id);
-
     const orderHash = web3.utils.soliditySha3(
       { type: "bytes16", value: hexCourseId },
       { type: "address", value: account.data }
     );
-
     const emailHash = web3.utils.sha3(order.email);
-
-    // emailHash + courseHash
     const proof = web3.utils.soliditySha3(
       { type: "bytes32", value: emailHash },
       { type: "bytes32", value: orderHash }
@@ -37,26 +33,24 @@ export default function Marketplace({ courses }) {
         .send({ from: account.data, value });
       console.log(result);
     } catch {
-      console.log("Purchase course: Operation has failed");
+      console.error("Purchase course: Operation has failed.");
     }
   };
 
   return (
     <>
-      <div className="py-4">
-        <MarketHeader />
-      </div>
+      <MarketHeader />
       <CourseList courses={courses}>
         {(course) => (
           <CourseCard
-            disabled={!canPurchaseCourse}
             key={course.id}
             course={course}
+            disabled={!canPurchaseCourse}
             Footer={() => (
               <div className="mt-4">
                 <Button
-                  disabled={!canPurchaseCourse}
                   onClick={() => setSelectedCourse(course)}
+                  disabled={!canPurchaseCourse}
                   variant="lightPurple"
                 >
                   Purchase
@@ -78,7 +72,7 @@ export default function Marketplace({ courses }) {
 }
 
 export function getStaticProps() {
-  const { data, courseMap } = getAllCourses();
+  const { data } = getAllCourses();
   return {
     props: {
       courses: data,
