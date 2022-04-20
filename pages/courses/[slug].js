@@ -1,12 +1,15 @@
 import { useAccount, useOwnedCourse } from "@components/hooks/web3";
 import { Modal } from "@components/ui/common";
 import { CourseHero, Curriculum, Keypoints } from "@components/ui/course";
+import { Button, Message } from "@components/ui/common";
 import { BaseLayout } from "@components/ui/layout";
 import { getAllCourses } from "content/courses/fetcher";
 
 export default function Course({ course }) {
   const { account } = useAccount();
   const { ownedCourse } = useOwnedCourse(course, account.data); //if null then the current user is not an owner of the course, if there is data then user is the owner
+  //const courseState = ownedCourse.data?.state;
+  const courseState = "deactivated";
 
   console.log(ownedCourse);
 
@@ -22,6 +25,34 @@ export default function Course({ course }) {
         />
       </div>
       <Keypoints points={course.wsl} />
+      {courseState && (
+        <div className="max-w-5xl mx-auto">
+          {courseState === "purchased" && (
+            <Message type="warning">
+              Course is purchased and waiting for activation. Process can take
+              up to 24 hours
+              <i className="block font-normal">
+                in case of any questions, please contact info@eincode.com
+              </i>
+            </Message>
+          )}
+          {courseState === "activated" && (
+            <Message type="success">
+              Course is activated. Enjoy your course!
+            </Message>
+          )}
+          {courseState === "deactivated" && (
+            <Message type="danger">
+              Course has been deactivated, due to incorrect purchase data. The
+              functionality to watch the course has been temporarily disabled.
+              <i className="block font-normal">
+                in case of any questions, please contact info@eincode.com
+              </i>
+            </Message>
+          )}
+        </div>
+      )}
+
       <Curriculum locked={true} />
       <Modal />
     </>
