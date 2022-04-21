@@ -8,10 +8,10 @@ import { getAllCourses } from "content/courses/fetcher";
 export default function Course({ course }) {
   const { account } = useAccount();
   const { ownedCourse } = useOwnedCourse(course, account.data); //if null then the current user is not an owner of the course, if there is data then user is the owner
-  //const courseState = ownedCourse.data?.state;
-  const courseState = "deactivated";
+  const courseState = ownedCourse.data?.state;
+  //const courseState = "deactivated"; for testing message
 
-  console.log(ownedCourse);
+  const isLocked = courseState === "purchased" || courseState === "deactivated";
 
   return (
     <>
@@ -53,7 +53,7 @@ export default function Course({ course }) {
         </div>
       )}
 
-      <Curriculum locked={true} />
+      <Curriculum locked={isLocked} courseState={courseState} />
       <Modal />
     </>
   );
