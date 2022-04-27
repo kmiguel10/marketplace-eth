@@ -26,10 +26,13 @@ export const handler = (web3) => () => {
 
   //When eth account change
   useEffect(() => {
+    console.log("SUBSCRIBING TO EVENT");
     window.ethereum &&
-      window.ethereum.on("accountsChanged", (accounts) =>
-        mutate(accounts[0] ?? null)
-      );
+      window.ethereum.on("accountsChanged", (accounts) => {
+        console.log("ON ACCOUNT DATA");
+        mutate(accounts[0] ?? null);
+      });
+    //console.log(provider);
   }, [web3]);
 
   return {
