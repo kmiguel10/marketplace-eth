@@ -12,7 +12,15 @@ export const handler = (web3) => () => {
     () => (web3 ? "web3/accounts" : null), //if web3 exist, execute identifier
     async () => {
       const accounts = await web3.eth.getAccounts();
-      return accounts[0];
+      const account = accounts[0];
+
+      if (!account) {
+        throw new Error(
+          "Cannot retreive an account. Please refresh the browser."
+        );
+      }
+
+      return account;
     }
   );
 
