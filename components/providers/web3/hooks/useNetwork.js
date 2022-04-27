@@ -33,11 +33,13 @@ export const handler = (web3, provider) => () => {
   //check for provider exist and use chainChanged event from metamask and mutate netId
   //extract mutate function from swrResponce where it changes the data (...rest) we'll be receing from it
   useEffect(() => {
-    window.ethereum &&
-      window.ethereum.on("chainChanged", (chainId) => {
-        mutate(NETWORKS[parseInt(chainId, 16)]);
-      });
-  }, [web3]);
+    const mutator = (chainId) => mutate(NETWORKS[parseInt(chainId, 16)]);
+    provider?.on("chainChanged", mutator);
+
+    return () => {
+      provider?.removeListener("chainChanged", mutator);
+    };
+  }, [provider]);
 
   return {
     data,

@@ -6,7 +6,7 @@ const adminAdresses = {
 };
 
 //returns a function
-export const handler = (web3) => () => {
+export const handler = (web3, provider) => () => {
   //const [account, setAccount] = useState(null);
   const { data, mutate, ...rest } = useSWR(
     () => (web3 ? "web3/accounts" : null), //if web3 exist, execute identifier
@@ -26,14 +26,12 @@ export const handler = (web3) => () => {
 
   //When eth account change
   useEffect(() => {
-    console.log("SUBSCRIBING TO EVENT");
-    window.ethereum &&
-      window.ethereum.on("accountsChanged", (accounts) => {
-        console.log("ON ACCOUNT DATA");
-        mutate(accounts[0] ?? null);
-      });
-    //console.log(provider);
-  }, [web3]);
+    const mutator = (accounts) => mutate(accounts[0] ?? null);
+    provider?.on("accountsChanged", mutator);
+    return () => {
+      provider?.removeListener("accountsChanged", mutator);
+    };
+  }, [provider]);
 
   return {
     data,
