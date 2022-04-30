@@ -49,6 +49,15 @@ export const useOwnedCourse = (...args) => {
   };
 };
 
+export const useManagedCourses = (...args) => {
+  const swrRes = enhanceHook(
+    useHooks((hooks) => hooks.useManagedCourses)(...args)
+  );
+  return {
+    managedCourses: swrRes,
+  };
+};
+
 //Combined useAccount and useNetwork hooks
 export const useWalletInfo = () => {
   const { account } = useAccount();
