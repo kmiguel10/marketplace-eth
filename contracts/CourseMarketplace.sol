@@ -37,6 +37,12 @@ contract CourseMarketplace {
     ///Course has already been purchased!
     error CourseHasOwner();
 
+    ///Course is not created!
+    error CourseIsNotCreated();
+
+    ///Course has invalid state!
+    error InvalidState();
+
     ///Only owner has access!
     error OnlyOwner();
 
@@ -70,6 +76,27 @@ contract CourseMarketplace {
         });
 
         //0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
+    }
+
+    function activateCourse(bytes32 courseHash) external onlyOwner {
+        if (!isCourseCreated(courseHash)) {
+            revert CourseIsNotCreated();
+        }
+        //Access storage
+        Course storage course = ownedCourses[courseHash];
+
+        //Course has to be purchased
+        if (course.state != State.Purchased) {
+            revert InvalidState();
+        }
+        course.state = State.Activated;
+    }
+
+    //Returns true if course is created
+    function isCourseCreated(bytes32 courseHash) private view returns (bool) {
+        return
+            ownedCourses[courseHash].owner !=
+            0x0000000000000000000000000000000000000000;
     }
 
     function transferOwnership(address newOwner) external onlyOwner {
